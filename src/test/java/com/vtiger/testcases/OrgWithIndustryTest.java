@@ -1,0 +1,31 @@
+package com.vtiger.testcases;
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import com.vtiger.genericutil.BaseClass;
+import com.vtiger.genericutil.ExcelUtility;
+import com.vtiger.genericutil.JavaUtility;
+@Listeners(com.vtiger.genericutil.Listners.class)
+public class OrgWithIndustryTest extends BaseClass
+{
+	@Test
+	public void orgWithIndustry() throws Throwable
+	{
+		ExcelUtility eUtil=new ExcelUtility();
+		String orgName = eUtil.excelUtility("Sheet1",1 , 2)+"_"+JavaUtility.generateRandomNumber();
+		String indusType = eUtil.excelUtility("Sheet1", 3, 3);
+		
+		//Create Organisation with Industry
+		driver.findElement(By.linkText("Organizations")).click();
+		driver.findElement(By.xpath("//img[@title='Create Organization...']")).click();
+		driver.findElement(By.name("accountname")).sendKeys(orgName);
+		driver.findElement(By.xpath("//input[@title='Save [Alt+S]']")).click();
+		WebElement ind = driver.findElement(By.name("industry"));
+		wUtil.selectByVisibleText(ind, indusType);
+	}
+
+}
